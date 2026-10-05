@@ -38,9 +38,9 @@ for image in range(read_number_of_images-1):
     flatt_array = np.array(res, dtype=np.float64).flatten() #flatten returns a 1D array of size 1*400 
 
     pixel_sum = flatt_array.sum()
+    norm_image = flatt_array / pixel_sum # Image normalized to 1, probability distribution and added to the list
 
-    normalized_histogram[image] = flatt_array / pixel_sum # Image normalized to 1, probability distribution and added to the list
-
+    normalized_histogram.append(norm_image)
 
 print(flatt_array)
 
