@@ -31,7 +31,7 @@ with open(image_file_path, "rb") as f:
 
 normalized_histogram = []
 
-for image in range(read_number_of_images):
+for image in range(read_number_of_images-1):
     # we go from 28*28 array to image then resize to a 20*20 image, and then convert it back to an array 1D
     array_to_image = Image.fromarray(images[image])
     res = array_to_image.resize((20,20))
