@@ -13,8 +13,11 @@ import struct
 
 image_file_path = "MNIST/train-images.idx3-ubyte" 
 with open(image_file_path, "rb") as f: 
+    # read bytes 0-3
     magic_number_bytes = struct.unpack(">I",f.read(4))
-    read_number_of_images = struct.unpack(">I", f.read(4,7))
-    read_rows = struct.unpack(">I", f.read(7,11))
-    read_cols = struct.unpack(">I", f.read(11, 15))
+    # read bytes 4-7 (automatically recalls to start from where it left off, i.e. byte 4)
+    read_number_of_images = struct.unpack(">I", f.read(4))
+    read_rows = struct.unpack(">I", f.read(4))
+    read_cols = struct.unpack(">I", f.read(4))
     print(magic_number_bytes)
+    
