@@ -1,6 +1,7 @@
 # from PIL import images
 import numpy as np
 import struct
+import matplotlib.pyplot as plt
 
 # Re-sizing images to a 20*20 from an original 28*28 to reduce the cost matrix M size ==> faster iterations
 
@@ -24,7 +25,15 @@ with open(image_file_path, "rb") as f:
     raw_pixel_data = np.frombuffer(f.read(), dtype = np.uint8)
     images = raw_pixel_data.reshape((read_number_of_images, 28, 28))
 
-    print(images)
+
+    # Assuming your array is named 'data'
+    print(images.shape) # This will tell you the exact size: e.g., (10, 100, 50)
+
+    # To visualize the first 2D "slice" of the 3D cube:
+    plt.imshow(images[0, :, :], cmap='viridis')
+    plt.colorbar()
+    plt.title("Slice 0 of the 3D Array")
+    plt.show()
 # // Now we have the images, we are going to resize to 20*20 and project to the probability simplex (normalization)
 
 normalized_histogram = []
