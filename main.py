@@ -1,7 +1,8 @@
-# from PIL import images
+from PIL import Image
 import numpy as np
 import struct
 import matplotlib.pyplot as plt
+import math
 
 # Re-sizing images to a 20*20 from an original 28*28 to reduce the cost matrix M size ==> faster iterations
 
@@ -30,9 +31,26 @@ with open(image_file_path, "rb") as f:
 
 normalized_histogram = []
 
-#for image in images[images, :, :]:
-#    image_obj = image
-#    print(image)
+for image in read_number_of_images:
+    # we go from 28*28 array to image then resize to a 20*20 image, and then convert it back to an array 1D
+    array_to_image = Image.fromarray(images[images])
+    res = array_to_image.resize((20,20))
+    flatt_array = np.array(res, dtype=np.float64).flatten() #flatten returns a 1D array of size 1*400 
 
-print(images[0, :, :])
+    pixel_sum = flatt_array.sum()
 
+    normalized_histogram[image] = flatt_array / pixel_sum # Image normalized to 1, probability distribution and added to the list
+
+    print(flatt_array)
+    
+
+# initialize cost matrix M
+cost_matrix_M = np.zeros(400, 400)
+
+# initialize (x, y) coordinates
+coordinates = []
+
+#for i in range(400):
+#    for j in range(400): 
+        # we calculate the euclidean distance between pixel i and j and then add it the cost matrix at M_ij
+#        x_d = 
