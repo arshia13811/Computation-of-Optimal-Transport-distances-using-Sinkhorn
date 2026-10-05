@@ -14,5 +14,5 @@ image_file_path = "MNIST/train-images.idx3-ubyte"
 
 with open(image_file_path, "rb") as f: 
     magic_number_bytes = f.read(4)
-    print(magic_number_bytes)
+    print(f)
     
