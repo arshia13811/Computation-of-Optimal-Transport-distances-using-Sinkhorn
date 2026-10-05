@@ -10,6 +10,36 @@ import math
 # Input : Image file path  (train-images.idx3-ubyte)
 
 # output : Normlaized histograms (matrix N*400, N images each 20*20=400), Cost Matrix (400*400, image vs image)
+N_train = [3000, 5000, 8000, 12000, 17000, 25000]
+
+lmbdas = []
+def ComputeSinkhornDistances(r, C, M, lmbdas, max_iter):
+    K = np.exp(-lmbdas * M)
+    N = C.shape[1] # number of images
+
+    # u initialization
+    u = np.ones((400, N))/400.0 # calculating the distance between r to c1, c2, ..., cN and keeping track of the u_n's
+
+    for _ in range(max_iter):
+        # calculating v_j = C_j/(K_T u)_j
+        K_trans = np.dot(K.T, u)
+        #element wise division
+        V = C / K_trans
+
+        # calculating u = r / (Kv)
+        K_v = np.dot(K, V)
+        #element wise division
+        u = r.reshape(-1, 1) / K_v
+    #  our initial optimization problem is : P_ij*M_ij = u_i*K_ij*v_j*M_ij = u_i*K_ij*M_ij*v_j
+    # now we compute K*M since we have the u and v 
+    KM = K * M
+
+    KMV = np.dot(KM, V)
+    UKMV = u * KMV
+
+    dist = np.sum(UKMV, axis = 0)
+
+    return dist
 
 
 image_file_path = "MNIST/train-images.idx3-ubyte" 
@@ -42,16 +72,34 @@ for image in range(read_number_of_images-1):
 
     normalized_histogram.append(norm_image)
 
-print(flatt_array)
+print(normalized_histogram[0])
 
 
 # initialize cost matrix M
-cost_matrix_M = np.zeros(400, 400)
+cost_matrix_M = np.zeros((400, 400))
 
 # initialize (x, y) coordinates
 coordinates = []
+for x in range(20): 
+    for y in range(20):
+        coordinates.append((x, y)) # [(0, 0), (0, 1), ...]
 
-#for i in range(400):
-#    for j in range(400): 
+
+for i in range(400):
+    for j in range(400): 
         # we calculate the euclidean distance between pixel i and j and then add it the cost matrix at M_ij
-#        x_d = 
+        x_d = coordinates[i][0] - coordinates[j][0]
+        y_d = coordinates[i][1] - coordinates[j][1]
+
+        cost_matrix_M[i, j] = math.sqrt(x_d**2 + y_d**2) 
+
+
+for i in range(N_train):
+    X_train = normalized_histogram[:N_train[i]] # shape (N_train[i], 400)
+    X_test = normalized_histogram[N_train[i]:] # shape (len(N_train)-X_train.shape(0), 400)
+
+# transposing the X_train s.t. each image is a column
+C = X_train.T
+
+# computing the distaace r to the images in C (c1, c2, c3, ..., c3000)
+test_dis = []
