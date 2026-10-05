@@ -38,4 +38,9 @@ with open(image_file_path, "rb") as f:
 
 normalized_histogram = []
 
-# for image in 
+#for image in images[images, :, :]:
+#    image_obj = image
+#    print(image)
+
+print(images[0, :, :])
+
