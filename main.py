@@ -33,7 +33,7 @@ normalized_histogram = []
 
 for image in range(read_number_of_images):
     # we go from 28*28 array to image then resize to a 20*20 image, and then convert it back to an array 1D
-    array_to_image = Image.fromarray(images[images])
+    array_to_image = Image.fromarray(images[image])
     res = array_to_image.resize((20,20))
     flatt_array = np.array(res, dtype=np.float64).flatten() #flatten returns a 1D array of size 1*400 
 
@@ -41,7 +41,8 @@ for image in range(read_number_of_images):
 
     normalized_histogram[image] = flatt_array / pixel_sum # Image normalized to 1, probability distribution and added to the list
 
-    print(flatt_array)
+
+print(flatt_array)
 
 
 # initialize cost matrix M
