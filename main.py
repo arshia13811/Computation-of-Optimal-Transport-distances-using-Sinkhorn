@@ -10,7 +10,7 @@ import struct
 # output : Normlaized histograms (matrix N*400, N images each 20*20=400), Cost Matrix (400*400, image vs image)
 
 
-image_file_path = "train-images.idx3-ubyte"
+image_file_path = "MNIST/train-images.idx3-ubyte"
 
 with open(image_file_path, "rb") as f: 
     magic_number_bytes = f.read(4)
