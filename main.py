@@ -150,9 +150,3 @@ for i in range(400):
 
 
 
-<<<<<<< Updated upstream
-
-=======
-# computing the distaace r to the images in C (c1, c2, c3, ..., c3000)
-test_dis = []
->>>>>>> Stashed changes
