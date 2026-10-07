@@ -1,11 +1,3 @@
-"""MNIST Sinkhorn + one-vs-one LIBSVM, without scikit-learn.
-
-Install: python -m pip install numpy scipy Pillow libsvm-official==3.37.0
-Run:     python sinkhorn_svm_complete.py
-
-Default: small development run. Set FULL_EXPERIMENT=True for the larger
-Sinkhorn classification experiment (not the paper's other baselines/timings).
-"""
 import os
 os.environ.setdefault("OMP_NUM_THREADS", "1")
 
