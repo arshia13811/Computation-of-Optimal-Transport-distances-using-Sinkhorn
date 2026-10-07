@@ -23,7 +23,7 @@ from libsvm.svmutil import svm_predict, svm_problem, svm_train
 # 1. SETTINGS: every experiment parameter is defined before it is used.
 DATA_DIR = Path(__file__).resolve().parent / "MNIST"
 OUTPUT_FILE = Path(__file__).resolve().parent / "sinkhorn_results.json"
-FULL_EXPERIMENT = False
+FULL_EXPERIMENT = True
 SIDE = 20
 MAX_ITER = 20
 BATCH_SIZE = 256
