@@ -1,6 +1,6 @@
 import numpy as np
 
-METRICS = ("euclidean", "manhattan", "chebyshev")
+METRICS = ("euclidean", "manhattan")
 
 
 def make_ground_cost(metric, side=20, scale="raw"):
