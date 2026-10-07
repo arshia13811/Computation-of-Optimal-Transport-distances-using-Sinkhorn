@@ -179,22 +179,22 @@ def make_psd(train_kernel, margin=1e-8):
 
 # 6. LIBSVM WRAPPERS: THE MULTICLASS ONE-VS-ONE LOGIC IS BUILT IN.
 def libsvm_rows(S):
-    # LIBSVM precomputed input requires a leading 1-based sample index.
-    # ADD .tolist() HERE
+    # np.column_stack creates the matrix, .tolist() turns it into a strict Python list of lists
     return np.column_stack((np.arange(1, len(S) + 1), S)).tolist()
 
 
 def fit_svm(train_kernel, y_train, C_svm):
-    # ADD .tolist() TO y_train HERE
+    # Ensure y_train is a strict list
     problem = svm_problem(y_train.tolist(), libsvm_rows(train_kernel), isKernel=True)
     # -s 0: C-SVC; -t 4: precomputed kernel; -c: SVM C; -q: quiet.
     return svm_train(problem, f"-s 0 -t 4 -c {C_svm} -e 0.001 -q")
 
 
 def predict_svm(model, test_kernel):
-    # ADD .tolist() TO np.zeros HERE
+    # Use a pure Python list comprehension for dummy labels instead of np.zeros
+    dummy_labels = [0] * len(test_kernel)
     predicted, _, _ = svm_predict(
-        np.zeros(len(test_kernel)).tolist(), libsvm_rows(test_kernel), model, "-q"
+        dummy_labels, libsvm_rows(test_kernel), model, "-q"
     )
     return np.asarray(predicted, dtype=int)
 
