@@ -180,22 +180,23 @@ def make_psd(train_kernel, margin=1e-8):
 # 6. LIBSVM WRAPPERS: THE MULTICLASS ONE-VS-ONE LOGIC IS BUILT IN.
 def libsvm_rows(S):
     # LIBSVM precomputed input requires a leading 1-based sample index.
-    return np.column_stack((np.arange(1, len(S) + 1), S))
+    # ADD .tolist() HERE
+    return np.column_stack((np.arange(1, len(S) + 1), S)).tolist()
 
 
 def fit_svm(train_kernel, y_train, C_svm):
-    problem = svm_problem(y_train, libsvm_rows(train_kernel), isKernel=True)
+    # ADD .tolist() TO y_train HERE
+    problem = svm_problem(y_train.tolist(), libsvm_rows(train_kernel), isKernel=True)
     # -s 0: C-SVC; -t 4: precomputed kernel; -c: SVM C; -q: quiet.
     return svm_train(problem, f"-s 0 -t 4 -c {C_svm} -e 0.001 -q")
 
 
 def predict_svm(model, test_kernel):
-    # Dummy labels are only for unused LIBSVM metrics, not predictions.
+    # ADD .tolist() TO np.zeros HERE
     predicted, _, _ = svm_predict(
-        np.zeros(len(test_kernel)), libsvm_rows(test_kernel), model, "-q"
+        np.zeros(len(test_kernel)).tolist(), libsvm_rows(test_kernel), model, "-q"
     )
     return np.asarray(predicted, dtype=int)
-
 
 # 7. STRATIFIED SPLITS AND PARAMETER SELECTION, WITHOUT SCIKIT-LEARN.
 def stratified_folds(labels, n_folds, seed):
